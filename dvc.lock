@@ -1,0 +1,4 @@
+schema: '2.0'
+stages:
+  init_stage:
+    cmd: pip install -e .
