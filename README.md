@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 hse_lab_1
 ==============================
 
@@ -55,3 +56,6 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+=======
+# HSE_LAB_1
+>>>>>>> 474d848125027c6ee04f6fb63cba3d0d3eec0d5f
