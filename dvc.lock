@@ -2,3 +2,59 @@ schema: '2.0'
 stages:
   init_stage:
     cmd: pip install -e .
+  preprocess_data:
+    cmd: python src/data/make_dataset.py 'data/raw/train.csv' 'data/interim/train.pkl'
+      'data/processed/target.pkl'; python src/data/make_dataset.py 'data/raw/test.csv'
+      'data/interim/test.pkl' '.'
+    deps:
+    - path: data/raw
+      md5: 604261b988033bd0e6a9d739b1a8b1ba.dir
+      size: 648253
+      nfiles: 3
+    outs:
+    - path: data/interim
+      md5: 5d05b2554b467273b24a5ef0461345d8.dir
+      size: 107796
+      nfiles: 3
+  features_data:
+    cmd: python src/features/build_features.py 'data/interim/train.pkl' 'data/processed/train.pkl';
+      python src/features/build_features.py 'data/interim/test.pkl' 'data/processed/test.pkl'
+    deps:
+    - path: data/interim
+      md5: 5d05b2554b467273b24a5ef0461345d8.dir
+      size: 107796
+      nfiles: 3
+    outs:
+    - path: data/processed
+      md5: a0ce7a313c52e2b186b6c2dfb4d5a13c.dir
+      size: 172018
+      nfiles: 3
+  train_stage:
+    cmd: data/precessed/target.pkl -o models/ reports/ python src/models/train_model.py
+      'data/processed/train.pkl' 'data/processed/target.pkl' 'models/model.pkl' 'reports/score.json'
+    deps:
+    - path: data/processed/train.pkl
+      md5: e07affdc437ef86d3b606dbf3a7f6ff5
+      size: 89128
+  predict_stage:
+    cmd: data/models/ -o data/external/ python src/models/predict_model.py 'data/processed/test.pkl'
+      'models/model.pkl' 'data/external/predictions.csv'
+    deps:
+    - path: data/processed/
+      md5: a0ce7a313c52e2b186b6c2dfb4d5a13c.dir
+      size: 172018
+      nfiles: 3
+  visualization_stage:
+    cmd: python src/visualization/visualize.py 'models/model.pkl' 'reports/figures/main.png'
+    deps:
+    - path: models/
+      md5: ed08a4f3cc55798bc6e345cb880fa752.dir
+      size: 2114728
+      nfiles: 2
+    outs:
+    - path: reports/figures/main.png
+      md5: 937d372f1f90dc23c451029292befa92
+      size: 52716
+    - path: reports/score.json
+      md5: 7e9b9479e269da8508c29e1642d4b876
+      size: 232
