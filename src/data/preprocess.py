@@ -33,8 +33,9 @@ def cast_types(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def replace_nan_values(df: pd.DataFrame) -> pd.DataFrame:
-    for col in cfg.NAN_COLS:
+    for col in filter(lambda x: x != cfg.PASSIVE_SMOKE_COL, cfg.NAN_COLS):
         df[col] = df[col].fillna(0)
+    df[cfg.PASSIVE_SMOKE_COL] = df[cfg.PASSIVE_SMOKE_COL].fillna('0')
     return df
 
 def process_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -43,3 +44,5 @@ def process_data(df: pd.DataFrame) -> pd.DataFrame:
 def process_target(df: pd.DataFrame) -> pd.DataFrame:
     df[cfg.TARGET_COLS] = df[cfg.TARGET_COLS].astype(np.int8)
     return df
+
+        

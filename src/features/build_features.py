@@ -13,7 +13,6 @@ from features import add_features
 def main(input_filepath, output_filepath):
     df = pd.read_pickle(input_filepath)
     df = add_features(df)
-    print(df.head(1))
     df.to_pickle(output_filepath)
 
     logger = logging.getLogger(__name__)
