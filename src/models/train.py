@@ -55,8 +55,8 @@ def train_model(train_data: pd.DataFrame, target_data: pd.DataFrame):
 
     result = cross_validate(
     estimator=train_pipe,
-    X=train_data,
-    y=target_data,
+    X=train,
+    y=train_target,
     scoring='roc_auc',
     cv=5,
     n_jobs=8,
