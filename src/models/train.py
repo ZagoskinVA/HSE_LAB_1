@@ -48,6 +48,7 @@ def build_model_train_pipe(model: CatBoostClassifier, preprocess_pipe):
 
 
 def train_model(train_data: pd.DataFrame, target_data: pd.DataFrame):
+    train, val_data, train_target, val_target = train_test_split(train_data, target_data, train_size=0.8, random_state=77)
     model = build_model()
     preprocess_pipe = build_preprocess_pipe()
     train_pipe = build_model_train_pipe(model, preprocess_pipe)

@@ -5,7 +5,6 @@ from dotenv import find_dotenv, load_dotenv
 from src.utils import save_as_pickle, extract_target
 import pandas as pd
 import src.config as cfg
-from sklearn.model_selection import train_test_split
 from train import train_model
 import json
 
