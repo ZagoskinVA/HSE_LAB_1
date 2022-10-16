@@ -15,12 +15,21 @@ stages:
     outs:
     - data/processed
   train_stage:
-    cmd: data/precessed/target.pkl -o models/ reports/ "python src/models/train_model.py
-      'data/processed/train.pkl' 'data/processed/target.pkl' 'models/model.pkl' 'reports/score.json'"
+    cmd: data/precessed/target.pkl -o models/ reports/ python src/models/train_model.py
+      'data/processed/train.pkl' 'data/processed/target.pkl' 'models/model.pkl' 'reports/score.json'
     deps:
     - data/processed/train.pkl
   predict_stage:
-    cmd: data/models/ -o data/external/ "python src/models/predict_model.py 'data/processed/test.pkl'
-      'models/model.pkl' 'data/external/predictions.csv'"
+    cmd: data/models/ -o data/external/ python src/models/predict_model.py 'data/processed/test.pkl'
+      'models/model.pkl' 'data/external/predictions.csv'
     deps:
     - data/processed/
+
+  visualization_stage:
+    cmd: python src/visualization/visualize.py 'models/model.pkl' 'reports/figures/main.png'
+    deps:
+    - models/
+    metrics:
+    - reports/score.json
+    plots:
+    - reports/figures/main.png
